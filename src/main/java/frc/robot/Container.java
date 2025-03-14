@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix6.Utils;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -44,6 +46,10 @@ public class Container {
                         Constants.Drivetrain.backLeftConfigs,
                         Constants.Drivetrain.backRightConfigs
                 );
+
+                NamedCommands.registerCommand("intake", runIntake());
+                //NamedCommands.registerCommand("outtakeL4", return new CommandrunOuttake());
+
 
                 arm = new Arm(Constants.Arm.pivotID, Constants.Arm.rollersID, Constants.Arm.distanceID);
                 elevator = new Elevator(Constants.Elevator.leftID, Constants.Elevator.rightID, Constants.canivoreID);
@@ -258,4 +264,10 @@ public class Container {
                 
                 return command;
         }
+        public Command getAutonomousCommand() {
+    // This method loads the auto when it is called, however, it is recommended
+    // to first load your paths/autos when code starts, then return the
+    // pre-loaded auto/path
+    return new PathPlannerAuto("New Auto");
+  }
 }
