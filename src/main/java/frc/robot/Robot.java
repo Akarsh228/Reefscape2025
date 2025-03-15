@@ -10,6 +10,7 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.ButtonBoard.Action;
 import frc.robot.subsystems.Elevator;
@@ -64,7 +65,13 @@ public class Robot extends TimedRobot {
 
         @Override
         public void autonomousInit() {
-                AutoRoutines.leave(container).schedule();
+                Command autoCommand = container.getAutonomousCommand();
+    if (autoCommand != null) {
+        autoCommand.schedule();
+    } else {
+        // Fallback to simple leave routine if no auto command is available
+        AutoRoutines.leave(container).schedule();
+    }
         }
 
         @Override
